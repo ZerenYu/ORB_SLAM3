@@ -52,7 +52,7 @@ int main(int argc, char *argv[])
     string file_name;
     if (bFileName)
     {
-        file_name = string(argv[argc-1]);
+        file_name = string(argv[argc-1]);// time file
         cout << "file name: " << file_name << endl;
     }
 
@@ -302,7 +302,7 @@ void LoadIMU(const string &strImuPath, vector<double> &vTimeStamps, vector<cv::P
             item = s.substr(0, pos);
             data[6] = stod(item);
 
-            vTimeStamps.push_back(data[0]/1e9);
+            vTimeStamps.push_back(data[0]);
             vAcc.push_back(cv::Point3f(data[4],data[5],data[6]));
             vGyro.push_back(cv::Point3f(data[1],data[2],data[3]));
         }
