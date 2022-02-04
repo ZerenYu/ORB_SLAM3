@@ -167,6 +167,10 @@ public:
     // See format details at: http://www.cvlibs.net/datasets/kitti/eval_odometry.php
     void SaveTrajectoryKITTI(const string &filename);
 
+    vector<Eigen::Vector3f> GetTrackedMapPoints_progresslabeler();
+    void SaveCameraFeature_progresslabeler(const string &filename, vector<string> images);
+    void SaveFeature3D_progresslabeler(const string &filename);
+    void SaveTrajectory_progresslabeler(const string &filename, vector<string> images, vector<double> timestamps, float frequence);
     // TODO: Save/Load functions
     // SaveMap(const string &filename);
     // LoadMap(const string &filename);

@@ -48,7 +48,8 @@ int main(int argc, char **argv) {
 
     if (argc !=6) {
         cerr << endl
-             << "Usage: ./rgbd_inertial_progresslabeler path_to_vocabulary path_to_settings path_to_rgbd path_to_imu_filename path_to_association_filename"
+            //  << "Usage: ./rgbd_inertial_progresslabeler path_to_vocabulary path_to_settings path_to_rgbd path_to_imu_filename path_to_association_filename"
+             << "Usage: ./rgbd_inertial_progresslabeler path_to_vocabulary path_to_settings path_to_rgbd path_to_association_filename"
              << endl;
         return 1;
     }
@@ -65,12 +66,12 @@ int main(int argc, char **argv) {
     string strAssociationFilename = string(argv[5]);
     string pathRgbd = string(argv[3]);
 
-    string pathImu = string(argv[4]);
+    // string pathImu = string(argv[4]);
     int first_imu = 0;
     vector<ORB_SLAM3::IMU::Point> vImuMeas;
 
     // Create SLAM system. It initializes all system threads and gets ready to process frames.
-    ORB_SLAM3::System SLAM(argv[1],argv[2],ORB_SLAM3::System::IMU_RGBD, true, 0);
+    ORB_SLAM3::System SLAM(argv[1],argv[2],ORB_SLAM3::System::RGBD, true, 0);
     float imageScale = SLAM.GetImageScale();
 
     double timestamp;
@@ -79,7 +80,7 @@ int main(int argc, char **argv) {
 
 
     LoadImages(strAssociationFilename, vstrImageFilenamesRGB, vstrImageFilenamesD, vTimestampsRGBD);
-    LoadIMU(pathImu, vTimestampsIMU, vAcc, vGyro);
+    // LoadIMU(pathImu, vTimestampsIMU, vAcc, vGyro);
 
     int proccIm = 0;
     int nImage = vstrImageFilenamesRGB.size();
@@ -127,18 +128,18 @@ int main(int argc, char **argv) {
         // Load imu measurements from previous frame
         vImuMeas.clear();
 
-        if(ni>0)
-        {
-            // cout << "t_cam " << tframe << endl;
+        // if(ni>0)
+        // {
+        //     // cout << "t_cam " << tframe << endl;
 
-            while((vTimestampsIMU[first_imu])<=vTimestampsRGBD[ni])
-            {
-                vImuMeas.push_back(ORB_SLAM3::IMU::Point(vAcc[first_imu].x,vAcc[first_imu].y,vAcc[first_imu].z,
-                                                            vGyro[first_imu].x,vGyro[first_imu].y,vGyro[first_imu].z,
-                                                            vTimestampsIMU[first_imu]));
-                first_imu++;
-            }
-        }
+        //     while((vTimestampsIMU[first_imu])<=vTimestampsRGBD[ni])
+        //     {
+        //         vImuMeas.push_back(ORB_SLAM3::IMU::Point(vAcc[first_imu].x,vAcc[first_imu].y,vAcc[first_imu].z,
+        //                                                     vGyro[first_imu].x,vGyro[first_imu].y,vGyro[first_imu].z,
+        //                                                     vTimestampsIMU[first_imu]));
+        //         first_imu++;
+        //     }
+        // }
 
 #ifdef COMPILEDWITHC11
         std::chrono::steady_clock::time_point t1 = std::chrono::steady_clock::now();
@@ -149,7 +150,7 @@ int main(int argc, char **argv) {
         // Pass the image to the SLAM system
         cout << "tframe = " << tframe << endl;
         
-        SLAM.TrackRGBD(im, depth, tframe,vImuMeas); // TODO change to monocular_inertial
+        SLAM.TrackRGBD(im, depth, tframe); // TODO change to monocular_inertial
 
 #ifdef COMPILEDWITHC11
         std::chrono::steady_clock::time_point t2 = std::chrono::steady_clock::now();

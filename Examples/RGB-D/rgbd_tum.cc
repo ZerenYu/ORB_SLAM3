@@ -127,6 +127,8 @@ int main(int argc, char **argv)
     // Stop all threads
     SLAM.Shutdown();
 
+    cout << SLAM.mt
+
     // Tracking time statistics
     sort(vTimesTrack.begin(),vTimesTrack.end());
     float totaltime = 0;
