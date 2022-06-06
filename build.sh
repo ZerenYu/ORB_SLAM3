@@ -1,3 +1,12 @@
+echo "Configuring and building Thirdparty/Pangolin ..."
+
+cd Thirdparty/Pangolin
+mkdir build
+cd build
+cmake ..
+make -j
+cd ../../../
+
 echo "Configuring and building Thirdparty/DBoW2 ..."
 
 cd Thirdparty/DBoW2
